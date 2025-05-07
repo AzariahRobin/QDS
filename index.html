@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Chat Search (TF-IDF)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Document Chat Search</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="document" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if text %}
+    <div class="chat-box">
+        <form method="POST">
+            <div class="chat-input">
+                <input type="text" name="query" placeholder="Ask your question..." value="{{ query }}" required>
+                <button type="submit">Send</button>
+            </div>
+        </form>
+
+        {% if query %}
+            <div class="chat-bubble user">
+                <strong>You:</strong> {{ query }}
+            </div>
+        {% endif %}
+
+        {% if results %}
+            <div class="chat-bubble bot">
+                <strong>Bot:</strong>
+                <ul>
+                    {% for line in results %}
+                        <li>{{ line }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% elif query %}
+            <div class="chat-bubble bot">
+                <strong>Bot:</strong> Sorry, I couldn’t find anything related to that.
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>
